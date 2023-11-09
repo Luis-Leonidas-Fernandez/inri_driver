@@ -1,0 +1,7 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Flutter needs it to communicate with the running application
+         to allow setting breakpoints, to provide hot reload, etc.
+    -->
+    <uses-permission android:name="android.permission.INTERNET"/>
+</manifest>
+ <!-- <string name="mapbox_access_token">pk.eyJ1IjoibHVpc2xlb25pZGFzIiwiYSI6ImNrbnhhcWFiazBpNGoycG40YzVmbng1dW8ifQ.H3n7NYagN5ZjNWTPZxJVAw</string> -->
