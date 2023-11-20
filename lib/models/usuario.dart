@@ -20,7 +20,12 @@ class Usuario {
         required this.modelo,
         required this.patente,
         required this.licencia,
-        required this.id,
+        required this.id,        
+        required this.urlMapbox,
+        required this.tokenMapBox,
+        required this.idMapBox,
+        required this.mapToken,
+
     });
 
     String email;
@@ -32,7 +37,11 @@ class Usuario {
     String modelo;
     String patente;
     String licencia;
-    String id;
+    String id; 
+    String urlMapbox;
+    String tokenMapBox;
+    String idMapBox;
+    String mapToken;
 
     factory Usuario.fromJson(Map<String, dynamic> json) => Usuario(
         email: json["email"],
@@ -44,7 +53,11 @@ class Usuario {
         modelo: json["modelo"],
         patente: json["patente"],
         licencia: json["licencia"],
-        id: json["_id"]?? [''],
+        id: json["_id"]?? [''],  
+        urlMapbox: json["urlMapbox"],
+        tokenMapBox: json["tokenMapBox"],
+        idMapBox: json["idMapBox"],
+        mapToken: json["mapToken"],
     );
 
     Map<String, dynamic> toJson() => {
@@ -57,6 +70,11 @@ class Usuario {
         "modelo": modelo,
         "patente": patente,
         "licencia": licencia,
-        "id": id,
+        "id": id,        
+        "urlMapbox": urlMapbox,
+        "tokenMapBox": tokenMapBox,
+        "idMapBox": idMapBox,
+        "mapToken": mapToken,
+
     };
 }

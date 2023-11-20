@@ -40,9 +40,7 @@ class DeclineButton extends StatelessWidget {
                              
                              addressBloc.add(OnIsDeclinedTravel());
                              addressBloc.add(ExistOrderUserEvent()); 
-                             if (!mounted) return;
-
-                            Navigator.pushReplacementNamed(context, 'loading');                             
+                                                        
 
                            }, 
                      );
@@ -65,9 +63,7 @@ class DeclineButton extends StatelessWidget {
                              
                              addressBloc.add(OnIsDeclinedTravel());
                              addressBloc.add(ExistOrderUserEvent()); 
-                             if (!mounted) return;
-
-                            Navigator.pushReplacementNamed(context, 'loading');                             
+                                                        
 
                            }, 
                      );

@@ -44,9 +44,10 @@ class ParseData{
     //convert data a Address Model 
     SendPort resultPort = args[0];
     String data = args[1];
+    final newMap = {"id": null};
 
-    final dataMap = jsonDecode(data)["orderUser"]; 
-    final Map<String, dynamic> response = dataMap; 
+    final dataMap = jsonDecode(data)["address"]; 
+    final Map<String, dynamic> response = dataMap ?? newMap; 
     final object  = Address.fromJson(response);
     
     await Future.delayed(const Duration(seconds: 3));

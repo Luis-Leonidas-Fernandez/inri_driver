@@ -18,7 +18,7 @@ class Address {
     DateTime? createdAt;
     DateTime? updatedAt;
     String? idDriver;
-     List<dynamic>? cupon;
+    Map<String, dynamic>? cupon;
 
     Address({
         
@@ -47,7 +47,7 @@ class Address {
         email: json["email"]?? '',
         online: json["online"]?? false,
         estado: json["estado"]?? false,
-        cupon: json["cupon"] == null ? null : List<dynamic>.from(json["cupon"].map((x) => x)),
+        cupon: json["cupon"] == null ? null : Map.from(json["cupon"]).map((k, v) => MapEntry<String, dynamic>(k, v)),
         ubicacion: json["ubicacion"] == null ? null : List<double>.from(json["ubicacion"].map((x) => x.toDouble())),
         createdAt: json["createdAt"] == null ? null : DateTime.parse(json["createdAt"]),
         updatedAt: json["updatedAt"] == null ? null : DateTime.parse(json["updatedAt"]),
@@ -62,7 +62,7 @@ class Address {
         "email": email,
         "online": online,
         "estado": estado,
-         "cupon": List<dynamic>.from(cupon!.map((x) => x)),
+         "cupon": Map.from(cupon!).map((k, v) => MapEntry<String, dynamic>(k, v)),
         "ubicacion": List<dynamic>.from(ubicacion!.map((x) => x)),
         "createdAt": createdAt!.toIso8601String(),
         "updatedAt": updatedAt!.toIso8601String(),

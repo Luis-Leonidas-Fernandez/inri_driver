@@ -24,7 +24,7 @@ final storage = StorageService.instance;
      await Future.delayed(const Duration(seconds: 2));
      
      final token = resp.toString();    
-     print('******$token *******TOKEN DESDE SOCKET SERVICE');
+     print('*******TOKEN FOR WEBSOCKET: $token********');
 
    socket = io(
       Environment.urlSocket,
@@ -41,36 +41,31 @@ final storage = StorageService.instance;
      socket!.connect();
      
 
-     socket!.onConnect((_) {
-
-    
-     print('***connect****');
-     socket!.emit('msg', '******conectado*****');
+     socket!.onConnect((_) {    
      
+     socket!.emit('msg', '******conectado*****');     
 
     });
 
       //Escuchara eventos del servidor de tipo connect
      socket!.on('connect', (_) {
-     
+      print('connect');
     });
 
     //Escuchara eventos del servidor de tipo connect-error
-     socket!.on('connect_error', (data) {
-      
-      print('connect_error $data');
+     socket!.on('connect_error', (data) {      
+       print('connect_error $data');
     });
 
     //Escuchara eventos del servidor de tipo error
      socket!.on('error', (data) {
-     
-      print('error $data');
+     print('error $data');
+      
     });
     
     //Escuchara eventos del servidor de tipo disconnect
-     socket!.on('disconnect', (data) {
-      
-      print('disconnect $data');
+     socket!.on('disconnect', (data) {      
+     print('disconnect $data');
       
     });
 
@@ -80,20 +75,15 @@ final storage = StorageService.instance;
   void sendLocation(dynamic driverPosition, dynamic idOrder)async{
 
     
-    final idDriver =  await StorageService.instance.getId();   
-
-       
-    print('*** ID USER: $idDriver FROM SOCKET SERVICE****');
-    print('****DRIVER POSIITON: $driverPosition FROM SOCKET SERVICE****'); 
+    final idDriver =  await StorageService.instance.getId();  
     
     
     await Future.delayed(const Duration(seconds: 2));    
     
     final data = jsonEncode(driverPosition);      
     
-    final sock =socket?.connected;
-    
-    print('************SOCKET*************  $sock');
+    final sock =socket?.connected;    
+  
     
     if(sock == false){
 
@@ -106,7 +96,7 @@ final storage = StorageService.instance;
       'idOrder' : idOrder,
     });    
     
-     print("SOCKET EMIT FINISH");
+     
     }
     
   } 

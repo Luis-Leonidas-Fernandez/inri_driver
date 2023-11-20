@@ -95,9 +95,8 @@ class _HomePageState extends State<HomePage> {
 
            
 
-              LogOutApp.instance.finishApp();              
-              addressBloc.getOrder;            
-              if (!mounted) return;
+              LogOutApp.instance.finishApp();        
+              if (!mounted) return;              
               Navigator.pushReplacementNamed(context, 'login');
               setState(() {});
             },
@@ -118,7 +117,7 @@ class _HomePageState extends State<HomePage> {
 
                 if( addressBloc.state.address == null) locationBloc.stopPeriodicTask();
                 final address = snapshot.data;
-
+               
                 return SingleChildScrollView(
 
                   child: Stack(

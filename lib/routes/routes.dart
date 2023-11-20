@@ -11,6 +11,6 @@ export 'package:inri_driver/pages/map_page.dart';
 export 'package:inri_driver/pages/loading_page.dart';
 export 'package:inri_driver/views/map_view.dart';
 
-export 'package:inri_driver/pages/test.dart';
+
 
 

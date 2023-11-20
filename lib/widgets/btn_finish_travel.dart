@@ -44,11 +44,7 @@ class BtnFinishTravel extends StatelessWidget {
                             addressBloc.add(const DeleteAddressEvent());
                            
                             //dejar de emitir posicion del conductor
-                            locationBloc.stopPeriodicTask();
-
-                            if (!mounted) return;
-
-                            Navigator.pushReplacementNamed(context, 'loading' );
+                            locationBloc.stopPeriodicTask();                            
                                                     
 
                            },
@@ -81,11 +77,7 @@ class BtnFinishTravel extends StatelessWidget {
                            
                             //dejar de emitir posicion del conductor
                             locationBloc.stopPeriodicTask();
-
-                            if (!mounted) return;
-
-                            Navigator.pushReplacementNamed(context, 'loading' );
-                                                    
+                                                                                
 
                            },
                              

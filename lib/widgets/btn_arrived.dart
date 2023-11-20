@@ -1,7 +1,11 @@
 // ignore_for_file: avoid_print
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:google_fonts/google_fonts.dart';
+import 'package:inri_driver/blocs/blocs.dart';
+
 import 'package:inri_driver/service/addresses_service.dart';
 
 
@@ -17,6 +21,7 @@ class BtnArrived extends StatelessWidget {
   Widget build(BuildContext context) { 
   
   late AddressService addressService = AddressService();
+  final locationBloc = BlocProvider.of<LocationBloc>(context);
   bool tap = true;
   
     return  tap == true? Positioned(
@@ -35,7 +40,8 @@ class BtnArrived extends StatelessWidget {
               child: llego(),
               onPressed: () async{
 
-                await addressService.arrivedDriver(); 
+                await addressService.arrivedDriver();
+                locationBloc.stopPeriodicTask(); 
                 tap = false;
 
               }

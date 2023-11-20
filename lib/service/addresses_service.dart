@@ -36,20 +36,25 @@ class AddressService {
 
     if (resp.statusCode == 200) {
       final data = resp.body;
+
+     
+
       storage.deleteIdOrder();
 
       final respuesta = await ParseData.instance.isolateFunction(data);
-
+      
+    
       final idOrder = respuesta.id;
       
-      storage.saveIdOrder(idOrder);
+      await storage.saveIdOrder(idOrder);
 
       return respuesta;
     }
 
     if (resp.statusCode == 201) {
+
       //convert data a Address Model
-      storage.deleteIdOrder();
+      await storage.deleteIdOrder();
       final date = Address(id: null);
       final result = date;
 
@@ -57,10 +62,13 @@ class AddressService {
     }
 
     if (resp.statusCode == 401) {
-      storage.deleteIdOrder();
+
+      await storage.deleteIdOrder();
+
       final date = Address(id: null);
       final result = date;
       return result;
+
     } else {
       return throw Exception('oops!');
     }
@@ -69,6 +77,7 @@ class AddressService {
   Future<Address> getAddresses() async {
     final token = await storage.getTokenUser();
     final idUser = await storage.getId();
+    final newMap = {'id': null};
 
     final Map<String, String> headers = {
       'Content-Type': 'application/json',
@@ -80,34 +89,51 @@ class AddressService {
         Uri.parse('${Environment.apiUrl}/drivers/$idUser'),
         headers: headers);
 
-    if (resp.statusCode == 200) {
-      //data decoded
-      final dataMap = jsonDecode(resp.body)["orderUser"];
+    try {
 
-      //convert data a Address Model
-      final Map<String, dynamic> response = dataMap;
-      final res = Address.fromJson(response);
+      if (resp.statusCode == 200) {
+
       
-      storage.deleteIdOrder();
-      storage.saveIdOrder(res.id);
+      //data decoded
+      final dataMap = jsonDecode(resp.body)["orderUser"];      
+     
+      
+      //convert data a Address Model
+      final Map<String, dynamic> response = dataMap ?? newMap;     
+
+      final res = Address.fromJson(response);   
+      
+      await storage.deleteIdOrder();
+      await storage.saveIdOrder(res.id);
      
       return res;
     }
 
     if (resp.statusCode == 201) {
+
       //convert data a Address Model
       final date = jsonDecode(resp.body)["emptyObject"];
       final result = Address.fromJson(date);
-      storage.deleteIdOrder();
+      await storage.deleteIdOrder();
 
       final obj = result;
       return obj;
+
     } else {
-      return throw Exception('oops!');
+
+      return Address(id: null);
     }
+      
+    } on FormatException catch (e) {
+      
+       return throw Exception(e);
+    }    
+
+    
   }
 
   Future<dynamic> updateEnCamino(Address address) async {
+
     final token = await StorageService.instance.getTokenUser();
     final idUser = await StorageService.instance.getId();
 
@@ -153,7 +179,9 @@ class AddressService {
         Uri.parse('${Environment.apiUrl}/status/finish-travel'),
         headers: headers,
         body: json.encode(data));
+
     if (resp.statusCode == 200) {
+      
       final Map<String, dynamic> address = jsonDecode(resp.body);
 
       return address;

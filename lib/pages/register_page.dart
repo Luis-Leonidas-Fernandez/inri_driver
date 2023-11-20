@@ -284,6 +284,7 @@ class _LoginFormState extends State<_LoginForm> {
             apellidoCtrl.text.toString(), nacimientoCtrl.text.toString(), domicilioCtrl.text.toString(),
             vehiculoCtrl.text.toString(),modeloCtrl.text.toString(), patenteCtrl.text.toString(), licenciaCtrl.text.toString());
             
+           
             if(!mounted) return;
 
             if(registerOk && mounted){
@@ -321,17 +322,7 @@ class _LoginFormState extends State<_LoginForm> {
      ) 
     );
   }
-  void registerOk(BuildContext context) async {
-
-  final authService = Provider.of<AuthService>(context); 
-
-  await authService.register(nameCtrl.text.toString(), emailCtrl.text.toString(), passCtrl.text.toString(),
-  apellidoCtrl.text.toString(), nacimientoCtrl.text.toString(), domicilioCtrl.text.toString(),
-  vehiculoCtrl.text.toString(),modeloCtrl.text.toString(), patenteCtrl.text.toString(), licenciaCtrl.text.toString());
-
-  if (!mounted) return;
-  Navigator.pushReplacementNamed(context, 'loading');
-}
+  
 
 }
 

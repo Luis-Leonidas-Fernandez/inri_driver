@@ -33,7 +33,7 @@ class CardView extends StatelessWidget {
             _AddressDetails(
               nombre: address.nombre?? '',
               email: address.email?? '',
-              cupon: address.cupon?? []              
+              cupon: address.cupon?? {}              
             ),
             Container(              
               margin: const EdgeInsets.only(top: 28, bottom: 12), 
@@ -79,7 +79,7 @@ class _AddressDetails extends StatelessWidget {
 
   final String nombre;
   final String email;
-  final List<dynamic> cupon;
+  final Map<String, dynamic> cupon;
 
   const _AddressDetails({
   required this.nombre,
@@ -91,10 +91,11 @@ class _AddressDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-     final idCupon = cupon.isNotEmpty ? cupon[0] : 0;
-    final price    = cupon.isNotEmpty ? cupon[1]:  0;
-    final idCuponCustom   = 'cupon N°: $idCupon';
+    final idCupon = cupon.entries.isNotEmpty ? cupon.values.first : 0;
+    final price    = cupon.entries.isNotEmpty ? cupon.values.last :  0;
+    final idCuponCustom   = 'cupon N°: $idCupon';  
 
+     
     return ClipRRect(
       borderRadius: BorderRadius.circular(25),
       child: Container(
@@ -144,7 +145,7 @@ class _AddressDetails extends StatelessWidget {
             Align(
               alignment: const Alignment(0.1, -0.9),
               child: Text(
-                   price > 0 ?
+                   price is int?
                   'descuento: ${NumberFormat.currency(decimalDigits: 0).format(price)}'
                   : '',                
                   style: const TextStyle( fontSize: 20, color: Colors.white),

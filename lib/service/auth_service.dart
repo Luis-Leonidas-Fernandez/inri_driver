@@ -55,7 +55,7 @@ set autenticando( bool valor ) {
     
     final loginResponse = loginResponseFromJson( resp.body );
     usuario = loginResponse.usuario as Usuario;
-    //usuarioProvider = usuario;
+    perfilUsuario = usuario;
 
     await storage.saveToken(loginResponse.token);
 
@@ -88,7 +88,7 @@ set autenticando( bool valor ) {
 
     } else {
 
-      storage.logout();
+      await storage.logout();
 
       return false;
     }

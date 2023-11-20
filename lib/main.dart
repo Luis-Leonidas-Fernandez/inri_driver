@@ -83,7 +83,7 @@ class MyApp extends StatelessWidget {
           'gps'           : (BuildContext context) => const GpsAccessPage(),
           'loading'       : (BuildContext context) => const LoadingPage(),
           'notification': (BuildContext context) => const NotificationsAccessPage(),
-          'test'          : (BuildContext context) => const TestMap(),      
+           
                             
         },
 

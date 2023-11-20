@@ -44,12 +44,8 @@ class AcceptButton extends StatelessWidget {
                     addressBloc.add(OnIsAcceptedTravel());
 
                     //Se emite la posicion del conductor                    
-                      locationBloc.sendPeriodicPosition();
-                      if(!mounted) return;
-
-                      Navigator.pushReplacementNamed(context, 'loading');                      
+                      locationBloc.sendPeriodicPosition();                                     
                              
-
                     
                   },
                 );
@@ -75,11 +71,7 @@ class AcceptButton extends StatelessWidget {
                     addressBloc.add(OnIsAcceptedTravel());
 
                     //Se emite la posicion del conductor                    
-                      locationBloc.sendPeriodicPosition();
-                      if(!mounted) return;
-
-                      Navigator.pushReplacementNamed(context, 'loading');                      
-                             
+                      locationBloc.sendPeriodicPosition();                     
 
                     
                   },

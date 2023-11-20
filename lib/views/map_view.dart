@@ -3,9 +3,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_map/flutter_map.dart';
-import 'package:inri_driver/global/environment.dart';
+import 'package:inri_driver/models/usuario.dart';
+import 'package:inri_driver/service/auth_service.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:inri_driver/blocs/blocs.dart';
+import 'package:provider/provider.dart';
 
 
 class MapView extends StatefulWidget {
@@ -23,12 +25,17 @@ required this.initialLocation
 }
 
 class _MapViewState extends State<MapView> {
+
   late LocationBloc locationBloc;
   late final MapController _mapController;
+  late Usuario usuario;
+  AuthService? authService;
 
   @override
   void initState() {    
     super.initState();
+
+    Provider.of<AuthService>(context, listen:false);
     BlocProvider.of<LocationBloc>(context);
     BlocProvider.of<AddressBloc>(context);
     BlocProvider.of<MapBloc>(context);
@@ -44,6 +51,7 @@ class _MapViewState extends State<MapView> {
   @override
   Widget build(BuildContext context) {  
 
+     final usuario      = Provider.of<AuthService>(context).usuario; 
     final locationBloc = BlocProvider.of<LocationBloc>(context);
     final myLocation = locationBloc.state.lastKnownLocation!;
     final location =BlocProvider.of<AddressBloc>(context).state.address!.ubicacion;
@@ -70,10 +78,10 @@ class _MapViewState extends State<MapView> {
           ),
           nonRotatedChildren: [
             TileLayer(
-              urlTemplate: Environment.urlMapBox,
+              urlTemplate: usuario.urlMapbox,
               additionalOptions: {               
-                'accessToken': Environment.tokenMapBox,
-                'id': Environment.idMapBox,
+                'accessToken': usuario.tokenMapBox,
+                'id':  usuario.idMapBox,
               },
               
             ),

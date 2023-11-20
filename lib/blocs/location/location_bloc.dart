@@ -74,13 +74,16 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
   }
 
   Future<void> sendLocationDriver(LatLng position) async {
+
     final socket = SocketService.instance.socket;
 
-    final data = position;
+    final location = position;
+    final data = LatLng(location.longitude, location.latitude);
 
+    print("*******EMIT FROM SOCKET POSITION: $data***********");
     final idUser = await StorageService.instance.getId();
     final idOrder = await StorageService.instance.getIdOrder();
-    print("*******ID ORDER IN SOCKET: $idOrder***********");
+    
     await Future.delayed(const Duration(seconds: 2));
 
     socket!.emit('driver-location',
@@ -91,7 +94,7 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
   void stopPeriodicTask() {
     timer?.cancel();
     timer = null;
-    print("Stop Timer");
+   
   }
 
   void stopFollowingUser() {
