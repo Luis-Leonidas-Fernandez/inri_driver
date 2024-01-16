@@ -8,57 +8,51 @@ import 'package:inri_driver/blocs/blocs.dart';
 
 import 'package:inri_driver/service/addresses_service.dart';
 
-
-
-class BtnArrived extends StatelessWidget { 
-  
-
+class BtnArrived extends StatelessWidget {
   const BtnArrived({
-  Key? key,   
+    Key? key,
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) { 
-  
-  late AddressService addressService = AddressService();
-  final locationBloc = BlocProvider.of<LocationBloc>(context);
-  bool tap = true;
-  
-    return  tap == true? Positioned(
+  Widget build(BuildContext context) {
+    late AddressService addressService = AddressService();
+    final locationBloc = BlocProvider.of<LocationBloc>(context);
+    final addressBloc = BlocProvider.of<AddressBloc>(context);  
+   
+
+    return Positioned(
             top: 412,
-            left: 350,
+            left: 340,
             right: 0,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        
-        
-          children:  <Widget>[
-    
-            FloatingActionButton(
-              backgroundColor: Colors.indigo,
-              heroTag: UniqueKey(),
-              child: llego(),
-              onPressed: () async{
+            child: BlocBuilder<AddressBloc, AddressState>(
+              builder: (context, state) {
+                return Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: <Widget>[
+                      FloatingActionButton(
+                          backgroundColor: Colors.indigo,
+                          splashColor: Colors.white,
+                          heroTag: UniqueKey(),
+                          child: llego(),
+                          onPressed: () async {
+                            await addressService.arrivedDriver();
+                            locationBloc.stopPeriodicTask();
 
-                await addressService.arrivedDriver();
-                locationBloc.stopPeriodicTask(); 
-                tap = false;
-
-              }
-                 
-                        
-            )
-          ] 
-      ),
-    ): Container();
+                            //OCULTA BOTON LLEGO: TAP = FALSE
+                            addressBloc.add(OnLockBtnArriveEvent());
+                          })
+                    ]);
+              },
+            ),
+          );
+        //: Container();
   }
 }
 
-Widget llego(){
-  return  Text("Llegó", style: GoogleFonts.lato (color: Colors.white, fontSize: 15),
-  textAlign: TextAlign.end,
+Widget llego() {
+  return Text(
+    "Llegó",
+    style: GoogleFonts.lato(color: Colors.white, fontSize: 15),
+    textAlign: TextAlign.end,
   );
-  
 }
-
-

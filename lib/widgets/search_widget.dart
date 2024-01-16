@@ -15,7 +15,7 @@ class SearchView extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Container(
-        margin: const EdgeInsets.only(top: 94, bottom: 50),
+        margin: const EdgeInsets.only(top: 110, bottom: 50),
         width: double.infinity,
         height: 70,
         decoration: _cardBorders(),

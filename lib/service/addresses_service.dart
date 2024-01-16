@@ -77,7 +77,8 @@ class AddressService {
   Future<Address> getAddresses() async {
     final token = await storage.getTokenUser();
     final idUser = await storage.getId();
-    final newMap = {'id': null};
+    final newMap = {'id': null};    
+    
 
     final Map<String, String> headers = {
       'Content-Type': 'application/json',
@@ -99,13 +100,12 @@ class AddressService {
      
       
       //convert data a Address Model
-      final Map<String, dynamic> response = dataMap ?? newMap;     
-
+      final Map<String, dynamic> response = dataMap ?? newMap;   
       final res = Address.fromJson(response);   
       
       await storage.deleteIdOrder();
       await storage.saveIdOrder(res.id);
-     
+      
       return res;
     }
 

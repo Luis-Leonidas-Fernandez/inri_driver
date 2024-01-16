@@ -5,7 +5,6 @@ import 'package:inri_driver/models/usuario.dart';
 import 'package:inri_driver/service/auth_service.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:inri_driver/blocs/blocs.dart';
-import 'package:provider/provider.dart';
 
 
 class MapViewNoData extends StatefulWidget {
@@ -31,7 +30,7 @@ class _MapViewNoDataState extends State<MapViewNoData> {
   void initState() {    
     super.initState();
 
-    Provider.of<AuthService>(context, listen:false);
+    BlocProvider.of<AuthBloc>(context);
     BlocProvider.of<AddressBloc>(context);
     _mapController = MapController();
     
@@ -45,10 +44,11 @@ class _MapViewNoDataState extends State<MapViewNoData> {
   @override
   Widget build(BuildContext context) {  
 
-    final usuario      = Provider.of<AuthService>(context).usuario; 
+    final usuario      = BlocProvider.of<AuthBloc>(context).state.usuario!;  
     final locationBloc = BlocProvider.of<LocationBloc>(context);
     final myLocation = locationBloc.state.lastKnownLocation!;
-
+    
+    
     final size = MediaQuery.of(context).size; 
 
        return SizedBox(

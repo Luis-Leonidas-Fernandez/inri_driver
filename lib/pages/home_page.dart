@@ -8,15 +8,12 @@ import 'package:inri_driver/blocs/blocs.dart';
 import 'package:inri_driver/connection/log_out.dart';
 import 'package:inri_driver/models/address.dart';
 import 'package:inri_driver/models/usuario.dart';
-
-import 'package:inri_driver/service/auth_service.dart';
 import 'package:inri_driver/views/views.dart';
 import 'package:inri_driver/widgets/btn_arrived.dart';
 
 import 'package:inri_driver/widgets/widgets.dart';
 
 import 'package:latlong2/latlong.dart';
-import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
 
@@ -32,7 +29,8 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   AddressBloc? addressBloc;
   LocationBloc? locationBloc;
-  Usuario? perfilUsuario;
+  AuthBloc? usuarioBloc;
+  Usuario? usuario;
 
   @override
   void initState() {
@@ -42,13 +40,15 @@ class _HomePageState extends State<HomePage> {
     locationBloc.startFollowingUser();
 
     final addressBloc = BlocProvider.of<AddressBloc>(context);
+    //addressBloc.getOrder;
     addressBloc.state.loading;
     addressBloc.startLoadingAddress();
 
     final mapBloc = BlocProvider.of<MapBloc>(context);
-    mapBloc.initBackgroundService();
-    Provider.of<AuthService>(context, listen:false);
+    mapBloc.initBackgroundService();   
+
     BlocProvider.of<LocationBloc>(context);
+    BlocProvider.of<AuthBloc>(context);
   }
 
   @override
@@ -56,22 +56,27 @@ class _HomePageState extends State<HomePage> {
     locationBloc?.stopFollowingUser();
     locationBloc?.stopPeriodicTask();
     addressBloc?.stopLoadingAddress();
+    usuarioBloc?.deleteUser();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final addressBloc = BlocProvider.of<AddressBloc>(context);
-    final usuario = Provider.of<AuthService>(context).perfilUsuario;
-     final locationBloc = BlocProvider.of<LocationBloc>(context);
+
+    final usuarioBloc = BlocProvider.of<AuthBloc>(context);
+    final addressBloc = BlocProvider.of<AddressBloc>(context);   
+    // final locationBloc = BlocProvider.of<LocationBloc>(context);
     //
+
+    final usuario = usuarioBloc.state.usuario;
+    //addressBloc.getOrder;
     addressBloc.state.loading;
 
     return Scaffold(
 
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-        backgroundColor: Colors.indigoAccent,
+        backgroundColor: Colors.indigo,
         elevation: 0,
         shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
@@ -81,7 +86,7 @@ class _HomePageState extends State<HomePage> {
         ),
         title: Center(
             child: Text(
-          'Bienvenido a Inri ${usuario.nombre}',
+          'Bienvenido a Inri ${usuario!.nombre}',
           style: GoogleFonts.satisfy(color: Colors.white, fontSize: 25),
         )
         ),
@@ -91,11 +96,12 @@ class _HomePageState extends State<HomePage> {
               Icons.exit_to_app_rounded,
               color: Colors.white,
             ),
-            onPressed: () async {
+            onPressed: () async {      
 
-           
+                
 
-              LogOutApp.instance.finishApp();        
+              LogOutApp.instance.finishApp();
+                     
               if (!mounted) return;              
               Navigator.pushReplacementNamed(context, 'login');
               setState(() {});
@@ -107,31 +113,29 @@ class _HomePageState extends State<HomePage> {
         builder: (context, state) {
           if (state.lastKnownLocation == null) return const Center(child: Text('Espere por favor...'),);
           final long = (state.lastKnownLocation!.longitude);
-          final lat = state.lastKnownLocation!.latitude;
-          final doc = addressBloc.getOrder;
+          final lat = state.lastKnownLocation!.latitude;         
          
 
           return StreamBuilder(
-              stream: doc,
-              builder: (context, AsyncSnapshot<Address> snapshot) {
-
-                if( addressBloc.state.address == null) locationBloc.stopPeriodicTask();
-                final address = snapshot.data;
-               
+              stream: addressBloc.getOrder(),
+              builder: (context, AsyncSnapshot<Address> snapshot) {             
+              final address = snapshot.data;            
+                              
+                
                 return SingleChildScrollView(
 
                   child: Stack(
 
                     children: [
 
-                            addressBloc.state.existOrder == true
+                            addressBloc.state.existOrder == true && address != null
                           ? MapView(initialLocation: LatLng(lat, long))
                           : MapViewNoData(initialLocation: LatLng(lat, long)),
 
 
-                            addressBloc.state.existOrder == false
-                          ? const SearchView()
-                          : CardView(address: address!),
+                            address?.id != null && addressBloc.state.existOrder == true?
+                            CardView(address: address!)
+                          : const SearchView(),
                           
 
                            //BUTONS
@@ -156,7 +160,7 @@ class _HomePageState extends State<HomePage> {
 
                       const BtnMyTracking(),
 
-                      addressBloc.state.isAccepted == true?
+                      addressBloc.state.isPressed == true?
                       const BtnArrived()
                       : Container()
                     ],

@@ -14,7 +14,7 @@ import 'package:flutter_background_service_android/flutter_background_service_an
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:inri_driver/service/addresses_service.dart';
 import 'package:inri_driver/service/location_service.dart';
-import 'package:inri_driver/service/storage_service.dart';
+
 
 
 
@@ -121,21 +121,19 @@ void onStart(ServiceInstance service) async {
  
 
   Timer.periodic(const Duration(minutes: 1), (timer) async {
-    
-   
-  StorageService.instance.deleteIdOrder();
-  await existAddress();
+
   
   // verifica si existe una order activa  en Storage Service
-  final isActiveOrder = await LocationService.instance.isActiveOrder();    
+  final isActiveOrder = await LocationService.instance.isActiveOrder();
+  final existUserIdAndToken = await LocationService.instance.getIdUserAndToken();    
 
-    if (isActiveOrder) {
+    if (isActiveOrder && existUserIdAndToken) {
 
     if (service is AndroidServiceInstance) {
 
       if (await service.isForegroundService()) {       
 
-       
+        await existAddress();
 
         DateTime now = DateTime.now();
         const color = Colors.indigo;
@@ -157,8 +155,12 @@ void onStart(ServiceInstance service) async {
             'my_foreground',
             'MY FOREGROUND SERVICE',
             icon: '@drawable/car_launcher',
-            //ongoing: true,
+            importance: Importance.max,
+            priority: Priority.high,
+            largeIcon: DrawableResourceAndroidBitmap('@mipmap/ic_launcher'),           
             color: color,
+            colorized: true,
+            
           )),
         );
       } else {
@@ -177,7 +179,7 @@ Future<bool> existAddress() async {
   
   final address = await AddressService().getAddressesBackground(); 
   final idOrderAct = address.id;  
-  print("*****address{ok:false}: $idOrderAct*********");
+ 
   
   if(idOrderAct != null){
     return true;

@@ -19,7 +19,7 @@ class BtnMyTracking extends StatelessWidget {
 
     return Positioned(
             top: 490,
-            left: 350,
+            left: 340,
             right: 0,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.end,
@@ -29,7 +29,8 @@ class BtnMyTracking extends StatelessWidget {
     
             FloatingActionButton(
               heroTag: UniqueKey(),
-              child: const Icon(Icons.gps_fixed, color: Colors.black),
+              backgroundColor: Colors.indigo,
+              child: const Icon(Icons.gps_fixed, color: Colors.white,),
               onPressed: () {}
                  
                         

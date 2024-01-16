@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:inri_driver/service/addresses_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -17,46 +19,91 @@ class BtnFinishTravel extends StatelessWidget {
     final locationBloc = BlocProvider.of<LocationBloc>(context);    
     final addressBloc     = BlocProvider.of<AddressBloc>(context);
     
-    final size = MediaQuery.sizeOf(context);
-    final alto = size.height;
+    final alto = MediaQuery.sizeOf(context).height;
+   
+    return alto >= 840?
 
+    LargeButton(
+    addressBloc: addressBloc,
+    addressService: addressService,
+    locationBloc: locationBloc)
 
-    return alto >= 860?
+    : ShortButton(
+    addressBloc: addressBloc,
+    addressService: addressService,
+    locationBloc: locationBloc);
+  }
+}
 
-    Positioned(
-                top: 750,
-                left: 90,
-                right: 90,
-                child: BlocBuilder<MapBloc, MapState>(
-                  builder: (context, state) {
-                    return ButtonOptions(iconData: Icons.free_cancellation_outlined,
-                           buttonText: 'Finalizar Viaje',
-                           onTap: () async {
+class ShortButton extends StatelessWidget {
+  const ShortButton({
+    Key? key,
+    required this.addressBloc,
+    required this.addressService,
+    required this.locationBloc,
+  }) : super(key: key);
 
-                             // Eliminando viaje de base de datos
-                            final address = addressBloc.state.address;                     
-                            await  addressService.finishTravel(address!);                            
+  final AddressBloc addressBloc;
+  final AddressService addressService;
+  final LocationBloc locationBloc;
 
-                            // ocultando boton finalizar: ISACCEPTED= FALSE
-                            addressBloc.add(OnIsDeclinedTravel());
-                            
-                            // intentando emitir un evento 
-                            addressBloc.add(const DeleteAddressEvent());
-                           
-                            //dejar de emitir posicion del conductor
-                            locationBloc.stopPeriodicTask();                            
-                                                    
+  @override
+  Widget build(BuildContext context) {
+    return Positioned(
+      top: 600,
+      left: 90,
+      right: 90,
+      child: BlocBuilder<MapBloc, MapState>(
+        builder: (context, state) {
+          return ButtonOptions(iconData: Icons.free_cancellation_outlined,
+                 buttonText: 'Finalizar Viaje',
+                 onTap: () async {
 
-                           },
-                             
-                     );
-                  }, 
+                   // Eliminando viaje de base de datos
+                  final address = addressBloc.state.address;                     
+                  await  addressService.finishTravel(address!);                            
+
+                  // ocultando boton finalizar: ISACCEPTED= FALSE
+                  addressBloc.add(OnIsDeclinedTravel());
                   
-                ),
-                
-              )
-              : Positioned(
-                top: 600,
+                  // intentando emitir un evento 
+                  addressBloc.add(const DeleteAddressEvent());
+                 
+                  //dejar de emitir posicion del conductor
+                  locationBloc.stopPeriodicTask();
+
+                  Navigator.pushReplacementNamed(context, 'notification');
+                                                                      
+
+                 },
+                   
+           );
+        }, 
+        
+      ),
+      
+    );
+  }
+}
+
+
+
+class LargeButton extends StatelessWidget {
+  const LargeButton({
+    Key? key,
+    required this.addressBloc,
+    required this.addressService,
+    required this.locationBloc,
+  }) : super(key: key);
+
+  final AddressBloc addressBloc;
+  final AddressService addressService;
+  final LocationBloc locationBloc;
+
+  @override
+  Widget build(BuildContext context) {
+    return Positioned(
+                top: 780,
                 left: 90,
                 right: 90,
                 child: BlocBuilder<MapBloc, MapState>(
@@ -76,8 +123,10 @@ class BtnFinishTravel extends StatelessWidget {
                             addressBloc.add(const DeleteAddressEvent());
                            
                             //dejar de emitir posicion del conductor
-                            locationBloc.stopPeriodicTask();
-                                                                                
+                            locationBloc.stopPeriodicTask();  
+
+                            Navigator.pushReplacementNamed(context, 'notification');                          
+                                                    
 
                            },
                              

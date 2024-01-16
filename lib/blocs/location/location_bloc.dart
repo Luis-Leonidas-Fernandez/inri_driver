@@ -36,8 +36,7 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
   Future getCurrentPosition() async {
     final position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high);
-
-    print('Position: $position ***************');
+  
 
     add(OnNewUserLocationEvent(LatLng(position.latitude, position.longitude)));
   }
@@ -78,9 +77,9 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
     final socket = SocketService.instance.socket;
 
     final location = position;
-    final data = LatLng(location.longitude, location.latitude);
+    final data = LatLng(location.latitude, location.longitude);
 
-    print("*******EMIT FROM SOCKET POSITION: $data***********");
+   
     final idUser = await StorageService.instance.getId();
     final idOrder = await StorageService.instance.getIdOrder();
     
@@ -93,7 +92,7 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
 
   void stopPeriodicTask() {
     timer?.cancel();
-    timer = null;
+    timer = null;    
    
   }
 

@@ -14,7 +14,12 @@ class NotificationsAccessPage extends StatelessWidget {
       body: Center(
         child: BlocBuilder<NotificationBloc, NotificationState>(
           builder: (context, state) { 
-           return state.isAllNotificationGranted
+
+            final notificationEnabled = state.notificationModel?.isNotificationPermissionGranted?? false;            
+
+           /* debugPrint("NOTIFICACION HABILITADA: $notificationEnabled");  */   
+
+           return notificationEnabled == true
            ? const HomePage()
            : const _AccessNotificationButton(); 
           }

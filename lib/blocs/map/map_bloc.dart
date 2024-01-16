@@ -44,9 +44,7 @@ class MapBloc extends Bloc<MapEvent, MapState> {
     on<OnStartFollowingUserEvent>(_onStartFollowingUser);    
     on<OnStopFollowingUserEvent>((event, emit) => emit( state.copyWith( isfollowingUser: false) ));
     on<OnAddAddressEvent>(_onAddAdress );
-    //on<OnIsAcceptedTravel>((event, emit) => emit(state.copyWith(isAccepted: true)));
-    //on<OnIsDeclinedTravel>((event, emit) => emit(state.copyWith(isAccepted: false)));
-  
+     
       
   
   locationStateSubscription = locationBloc.stream.listen((locationState){
@@ -149,16 +147,17 @@ class MapBloc extends Bloc<MapEvent, MapState> {
     final LatLng driverPosition = locationBloc.state.lastKnownLocation!;
     final userPosition = LatLng(user[0], user[1]);    
     
-
+    
     final distance = getDistanceInKM(userPosition, driverPosition);
 
     double radius = distance / 2;
     double scale  = radius / 0.3;
-    final zoom    = (16 - math.log(scale) / math.log(2));
-   
+    final zoom    = (13 - math.log(scale) / math.log(2));
     
-    if(distance == 0.0){
-      return 6.0;
+  
+    
+    if(distance <= 0.05){
+      return 16.0;
     }else{
      return zoom;
     }
@@ -196,17 +195,8 @@ class MapBloc extends Bloc<MapEvent, MapState> {
     final d = R * c; // Distance in km
 
     return d;
-  }
-
+  }  
   
-
-  /* LatLng convertPoints(List<double> location){
-    
-    final doublePosition        =  List.from(location.reversed);
-    final LatLng driverPosition    = LatLng(doublePosition[1], doublePosition[0]);
-    return driverPosition;
- }  */
-    
   
 
 @override

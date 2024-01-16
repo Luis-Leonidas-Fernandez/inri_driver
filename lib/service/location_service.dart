@@ -87,6 +87,16 @@ class LocationService {
     return true;
   }
 
+  Future<bool> getIdUserAndToken() async {
+    final existToken = await StorageService.instance.getTokenUser();
+    final existUser = await StorageService.instance.getId();
+    
+    if(existToken == null && existUser == null){
+    return false;
+    }
+    return true;
+  }
+
   Future<void> emitPositionBackground() async {
     
     final idOrder = await StorageService.instance.getIdOrder();

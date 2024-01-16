@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_print
+// ignore_for_file: avoid_print, use_build_context_synchronously
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -18,14 +18,79 @@ class DeclineButton extends StatelessWidget {
     late AddressService addressService = AddressService();
     final addressBloc =  BlocProvider.of<AddressBloc>(context);
     
-     final size = MediaQuery.sizeOf(context);
-    final alto = size.height;
+    final alto = MediaQuery.sizeOf(context).height;  
+   
+
+    return alto >= 840?
+
+    BigButton(
+    addressBloc: addressBloc,
+    addressService: addressService)
     
+    : SmallButton(
+    addressBloc: addressBloc,
+    addressService: addressService);
+            
+    }
+}
 
-    return alto >= 860?
 
-    Positioned(
-                top: 750,
+
+
+class SmallButton extends StatelessWidget {
+  const SmallButton({
+    Key? key,
+    required this.addressBloc,
+    required this.addressService,
+  }) : super(key: key);
+
+  final AddressBloc addressBloc;
+  final AddressService addressService;
+
+  @override
+  Widget build(BuildContext context) {
+    return Positioned(
+        top: 600,
+        left: 210,
+        right: 20,
+        child: BlocBuilder<MapBloc, MapState>(
+          builder: (context, state) {
+            return ButtonOptions(iconData: Icons.thumb_down_alt_outlined,
+                   buttonText: 'Rechazar Viaje',
+                   onTap: () async{
+                     
+                     final address = addressBloc.state.address;
+
+                     await  addressService.finishTravel(address!);
+                     
+                     addressBloc.add(OnIsDeclinedTravel());
+                     addressBloc.add(ExistOrderUserEvent()); 
+
+                     Navigator.pushReplacementNamed(context, 'notification');
+                                                
+
+                   }, 
+             );
+          },
+        ),
+      );
+  }
+}
+
+class BigButton extends StatelessWidget {
+  const BigButton({
+    Key? key,
+    required this.addressBloc,
+    required this.addressService,
+  }) : super(key: key);
+
+  final AddressBloc addressBloc;
+  final AddressService addressService;
+
+  @override
+  Widget build(BuildContext context) {
+    return Positioned(
+                top: 780,
                 left: 220,
                 right: 20,
                 child: BlocBuilder<MapBloc, MapState>(
@@ -40,29 +105,8 @@ class DeclineButton extends StatelessWidget {
                              
                              addressBloc.add(OnIsDeclinedTravel());
                              addressBloc.add(ExistOrderUserEvent()); 
-                                                        
 
-                           }, 
-                     );
-                  },
-                ),
-              )
-            : Positioned(
-                top: 600,
-                left: 210,
-                right: 20,
-                child: BlocBuilder<MapBloc, MapState>(
-                  builder: (context, state) {
-                    return ButtonOptions(iconData: Icons.thumb_down_alt_outlined,
-                           buttonText: 'Rechazar Viaje',
-                           onTap: () async{
-                             
-                             final address = addressBloc.state.address;
-
-                             await  addressService.finishTravel(address!);
-                             
-                             addressBloc.add(OnIsDeclinedTravel());
-                             addressBloc.add(ExistOrderUserEvent()); 
+                             Navigator.pushReplacementNamed(context, 'notification');
                                                         
 
                            }, 
@@ -70,6 +114,5 @@ class DeclineButton extends StatelessWidget {
                   },
                 ),
               );
-            
-      }
+  }
 }

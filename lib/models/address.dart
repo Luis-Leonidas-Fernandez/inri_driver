@@ -2,8 +2,6 @@
 //
 //     final addressResp = addressRespFromMap(jsonString);
 
-import 'dart:convert';
-
 
 class Address {
     
@@ -37,7 +35,7 @@ class Address {
     });
    
 
-    String toJson() => json.encode(toMap());
+    //String toJson() => json.encode(toMap());
 
     factory Address.fromJson(Map<String, dynamic> json) => Address(
         ok: json["ok"]?? false,
@@ -62,10 +60,25 @@ class Address {
         "email": email,
         "online": online,
         "estado": estado,
-         "cupon": Map.from(cupon!).map((k, v) => MapEntry<String, dynamic>(k, v)),
-        "ubicacion": List<dynamic>.from(ubicacion!.map((x) => x)),
-        "createdAt": createdAt!.toIso8601String(),
-        "updatedAt": updatedAt!.toIso8601String(),
+         "cupon": cupon == null? null : Map.from(cupon!).map((k, v) => MapEntry<String, dynamic>(k, v)),
+        "ubicacion": ubicacion == null? null :List<dynamic>.from(ubicacion!.map((x) => x)),
+        "createdAt": createdAt?.toIso8601String(),
+        "updatedAt": updatedAt?.toIso8601String(),
+        "idDriver": idDriver,
+    };
+
+    Map<String, dynamic> toJson() => {
+        "ok": ok,
+        "msg": msg,
+        "_id": id,
+        "nombre": nombre,
+        "email": email,
+        "online": online,
+        "estado": estado,
+        "cupon": cupon == null? null : Map.from(cupon!).map((k, v) => MapEntry<String, dynamic>(k, v)),
+        "ubicacion": ubicacion == null? null : List<dynamic>.from(ubicacion!.map((x) => x)),
+        "createdAt": createdAt?.toIso8601String(),
+        "updatedAt": updatedAt?.toIso8601String(),
         "idDriver": idDriver,
     };
 }

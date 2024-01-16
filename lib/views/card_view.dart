@@ -21,9 +21,9 @@ class CardView extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Container(
-        margin: const EdgeInsets.only(top: 94, bottom: 50),
+        margin: const EdgeInsets.only(top: 110, bottom: 50),
         width: double.infinity,
-        height: 110,
+        height: 120,
         decoration: _cardBorders(),
         child: Stack(
           
@@ -111,7 +111,7 @@ class _AddressDetails extends StatelessWidget {
               alignment: const Alignment(0.1, -0.9),
               child: Text(
                 email.toString(),
-                style: const TextStyle( fontSize: 20, color: Colors.white),
+                style: const TextStyle( fontSize: 18, color: Colors.white),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),
@@ -122,7 +122,7 @@ class _AddressDetails extends StatelessWidget {
               child: Text(
                 
                 nombre,
-                style: const TextStyle( fontSize: 20, color: Colors.white),
+                style: const TextStyle( fontSize: 18, color: Colors.white),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),
@@ -134,7 +134,7 @@ class _AddressDetails extends StatelessWidget {
               child: Text(
                   idCupon is String ? idCuponCustom 
                   : '',
-                  style: const TextStyle( fontSize: 20, color: Colors.white),
+                  style: const TextStyle( fontSize: 18, color: Colors.white),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -148,7 +148,7 @@ class _AddressDetails extends StatelessWidget {
                    price is int?
                   'descuento: ${NumberFormat.currency(decimalDigits: 0).format(price)}'
                   : '',                
-                  style: const TextStyle( fontSize: 20, color: Colors.white),
+                  style: const TextStyle( fontSize: 18, color: Colors.white),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),

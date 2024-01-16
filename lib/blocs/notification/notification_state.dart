@@ -1,26 +1,26 @@
 part of 'notification_bloc.dart';
 
-class NotificationState extends Equatable {
+class NotificationState extends Equatable {  
   
-  final bool isNotificationPermissionGranted;
-
-  bool get isAllNotificationGranted => isNotificationPermissionGranted;
+  
+  final NotificationModel? notificationModel;
 
   const NotificationState({
+    this.notificationModel,
     
-    required this.isNotificationPermissionGranted
   });
 
-  NotificationState copyWith({
-    
-    bool? isGpsPermissionGranted, required bool isNotificationPermissionGranted,
+  NotificationState copyWith({    
+   
+    NotificationModel? notificationModel,
+
   }) => NotificationState(
-    
-    isNotificationPermissionGranted: isNotificationPermissionGranted
+    notificationModel: notificationModel?? this.notificationModel,
+   
   );
 
   @override
-  List<Object> get props => [ isNotificationPermissionGranted ];
+  List<Object?> get props => [ notificationModel ];
 }
 
 

@@ -14,8 +14,11 @@ class LoadingPage extends StatelessWidget {
     return Scaffold(
       body: BlocBuilder<GpsBloc, GpsState>(
         builder: (context, state) {
+
+            final gpsEnabled = state.gpsModel?.isGpsEnabled?? false;
+            final gpsGranted = state.gpsModel?.isGpsPermissionGranted ?? false;
           
-            return state.isAllGranted
+            return gpsEnabled && gpsGranted == true
             ? const NotificationsAccessPage()
             : const GpsAccessPage();           
             

@@ -24,7 +24,7 @@ final storage = StorageService.instance;
      await Future.delayed(const Duration(seconds: 2));
      
      final token = resp.toString();    
-     print('*******TOKEN FOR WEBSOCKET: $token********');
+    
 
    socket = io(
       Environment.urlSocket,

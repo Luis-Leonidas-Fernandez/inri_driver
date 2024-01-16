@@ -16,8 +16,6 @@ import 'package:inri_driver/service/storage_service.dart';
 
 class AuthService with ChangeNotifier {
 
-late Usuario usuario;
-late Usuario perfilUsuario;
 bool _autenticando = false;
 final storage = StorageService.instance;
 
@@ -34,32 +32,32 @@ set autenticando( bool valor ) {
   
 
     //Registro de Usuario
-    Future register(String nombre, String email, String password,
+    Future<Usuario> register(String nombre, String email, String password,
     String apellido, String nacimiento, String domicilio,
     String vehiculo, String modelo, String patente, String licencia ) async {
 
-    _autenticando = true;
+   
 
     final data = {'nombre': nombre,'email': email,'password': password,
     'apellido': apellido, 'nacimiento': nacimiento, 'domicilio': domicilio,
     'vehiculo': vehiculo, 'modelo': modelo, 'patente': patente,  'licencia': licencia
     };        
+
     final body = jsonEncode(data);
     final headers = {'Content-Type': 'application/json'};
 
     final resp = await http.post(Uri.parse('${Environment.apiUrl }/logindriver/newdriver'), body: body, headers: headers);       
     
-    _autenticando = false;
+    
 
     if ( resp.statusCode == 200 ) {
     
     final loginResponse = loginResponseFromJson( resp.body );
-    usuario = loginResponse.usuario as Usuario;
-    perfilUsuario = usuario;
+    final usuario = loginResponse.usuario as Usuario;   
 
     await storage.saveToken(loginResponse.token);
 
-    return true;
+    return usuario;
     
     } else {
       final respBody = jsonDecode(resp.body);
@@ -80,7 +78,7 @@ set autenticando( bool valor ) {
     if ( resp.statusCode == 200 ) {
 
       final loginResponse = loginResponseFromJson( resp.body );
-      usuario = loginResponse.usuario as Usuario;
+      loginResponse.usuario as Usuario;
 
       await storage.saveToken(loginResponse.token);
 
@@ -95,24 +93,22 @@ set autenticando( bool valor ) {
 
   }
 
-  Future<bool> login( String email, String password ) async {
-    
-    _autenticando = true;
+  Future<dynamic> loginUser( String email, String password ) async {    
+   
 
     final data = {'email': email, 'password': password};
     final headers = {'Content-Type': 'application/json'};    
     final body = jsonEncode(data);
 
-    final resp = await http.post(Uri.parse('${ Environment.apiUrl }/logindriver'), body: body, headers: headers  );
-      
-    _autenticando = false;
 
+    final resp = await http.post(Uri.parse('${ Environment.apiUrl }/logindriver'), body: body, headers: headers  );      
+   
+   
     if ( resp.statusCode == 200 ) {
 
       final loginResponse = loginResponseFromJson( resp.body );
 
-      usuario = loginResponse.usuario as Usuario;
-      perfilUsuario= usuario;
+      final usuario = loginResponse.usuario as Usuario;      
       
       final privateToken = loginResponse.token; 
      
@@ -120,11 +116,18 @@ set autenticando( bool valor ) {
       await  storage.saveId(usuario.id);
       await  storage.saveNameDriver(usuario.nombre);
       
-      return true;
-    } else {
-      return false;
+      return usuario;
+    } else {     
+       final respBody = jsonDecode(resp.body);
+      final data = loginResponseFromJson(respBody);
+      return data.ok;
+     
+      }
+      
+
     }
-  } 
+    
+   
 
     
   

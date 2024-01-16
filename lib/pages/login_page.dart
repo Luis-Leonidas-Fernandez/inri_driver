@@ -1,7 +1,9 @@
 // ignore_for_file: avoid_print
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:inri_driver/blocs/user/auth_bloc.dart';
 import 'package:inri_driver/widgets/alert_screen.dart';
 
 import 'package:provider/provider.dart';
@@ -9,8 +11,6 @@ import 'package:inri_driver/routes/routes.dart';
 
 import 'package:inri_driver/login_ui/input_decorations.dart';
 import 'package:inri_driver/providers/login_form_validar.dart';
-
-import 'package:inri_driver/service/auth_service.dart';
 import 'package:inri_driver/widgets/card_container.dart';
 
 class LoginPage extends StatelessWidget {
@@ -19,8 +19,10 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
         body: AuthBackground(
             child: SingleChildScrollView(
+
       child: Column(
         children: [
           const SizedBox(height: 250),
@@ -34,7 +36,9 @@ class LoginPage extends StatelessWidget {
                 'Inicio Sesion Conductor',
                 style: GoogleFonts.lobster(color: Colors.black, fontSize: 25),
               ),
+
               const SizedBox(height: 45),
+
               ChangeNotifierProvider(
                 create: (_) => LoginFormValidar(),
                 child: const _LoginForm(),
@@ -60,14 +64,18 @@ class _LoginFormState extends State<_LoginForm> {
 
   @override
   Widget build(BuildContext context) {
-    final authService = Provider.of<AuthService>(context);
+
+    final authUser = BlocProvider.of<AuthBloc>(context);
     final loginFormValidar = Provider.of<LoginFormValidar>(context);
 
     return Form(
+
         key: loginFormValidar.formKey,
         autovalidateMode: AutovalidateMode.onUserInteraction,
+
         child: Column(
           children: [
+
             const SizedBox(height: 05),
             TextFormField(
               autocorrect: false,
@@ -113,18 +121,15 @@ class _LoginFormState extends State<_LoginForm> {
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20)
                     ),
-                disabledColor: Colors.grey,
-                elevation: 0,
-                color: Colors.indigo,
-                onPressed: authService.autenticando
-                    ? () {}
-                    : () async {
+                    disabledColor: Colors.grey,
+                    elevation: 0,
+                    color: Colors.indigo,
+                    onPressed: authUser.state.authenticando == true? () {}
+                    : () async {                     
+                      
 
-                        final loginOk = await authService.login(
-                            emailCtrl.text.toString(),
-                            passCtrl.text.toString());
-
-
+                        final loginOk = await authUser.initLogin(emailCtrl.text.toString(), passCtrl.text.toString());
+                                                 
                         
                         
                         if(!mounted) return;

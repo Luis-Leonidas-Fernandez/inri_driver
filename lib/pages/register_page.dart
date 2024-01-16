@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:inri_driver/blocs/user/auth_bloc.dart';
 import 'package:inri_driver/widgets/alert_screen.dart';
 import 'package:provider/provider.dart';
 
@@ -7,7 +9,6 @@ import 'package:inri_driver/login_ui/input_decorations.dart';
 import 'package:inri_driver/providers/login_form_validar.dart';
 
 import 'package:inri_driver/routes/routes.dart';
-import 'package:inri_driver/service/auth_service.dart';
 import 'package:inri_driver/widgets/card_container.dart';
 
 class RegisterPage extends StatelessWidget {
@@ -89,7 +90,7 @@ class _LoginFormState extends State<_LoginForm> {
   Widget build(BuildContext context) {
 
     final loginFormValidar = Provider.of<LoginFormValidar>(context);
-    final authService = Provider.of<AuthService>(context);
+    final authUser = BlocProvider.of<AuthBloc>(context);
 
     return Form(
 
@@ -277,12 +278,13 @@ class _LoginFormState extends State<_LoginForm> {
            disabledColor: Colors.grey,
            elevation: 0,
            color: Colors.indigo,
-           onPressed:  authService.autenticando ? (){} 
+           onPressed:  authUser.state.authenticando == true ? (){} 
            : () async {
 
-            final registerOk =await authService.register(nameCtrl.text.toString(), emailCtrl.text.toString(), passCtrl.text.toString(),
+            final registerOk =await authUser.initRegister(nameCtrl.text.toString(), emailCtrl.text.toString(), passCtrl.text.toString(),
             apellidoCtrl.text.toString(), nacimientoCtrl.text.toString(), domicilioCtrl.text.toString(),
-            vehiculoCtrl.text.toString(),modeloCtrl.text.toString(), patenteCtrl.text.toString(), licenciaCtrl.text.toString());
+            vehiculoCtrl.text.toString(),modeloCtrl.text.toString(), patenteCtrl.text.toString(), licenciaCtrl.text.toString()); 
+                        
             
            
             if(!mounted) return;
@@ -293,7 +295,7 @@ class _LoginFormState extends State<_LoginForm> {
 
             }else{
               
-              mostrarAlerta(context, 'Registro incorrecto', registerOk );
+              mostrarAlerta(context, 'Registro incorrecto', registerOk.toString() );
             }    
 
 

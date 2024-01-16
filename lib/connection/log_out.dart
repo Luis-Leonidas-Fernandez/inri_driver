@@ -1,5 +1,6 @@
 
 import 'package:flutter_background_service/flutter_background_service.dart';
+import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:inri_driver/Generators/isolate_parse_json.dart';
 import 'package:inri_driver/service/addresses_service.dart';
 import 'package:inri_driver/service/socket_service.dart';
@@ -36,6 +37,9 @@ class LogOutApp {
     // Finalizar BackgroundService
     final service = FlutterBackgroundService();
     service.invoke('stopService');
+
+    //Clear Hydrated Bloc
+    HydratedBloc.storage.clear();
     
     
 

@@ -27,6 +27,7 @@ required this.initialLocation
 class _MapViewState extends State<MapView> {
 
   late LocationBloc locationBloc;
+  late AddressBloc addressBloc;
   late final MapController _mapController;
   late Usuario usuario;
   AuthService? authService;
@@ -35,7 +36,7 @@ class _MapViewState extends State<MapView> {
   void initState() {    
     super.initState();
 
-    Provider.of<AuthService>(context, listen:false);
+    BlocProvider.of<AuthBloc>(context, listen:false);
     BlocProvider.of<LocationBloc>(context);
     BlocProvider.of<AddressBloc>(context);
     BlocProvider.of<MapBloc>(context);
@@ -51,15 +52,17 @@ class _MapViewState extends State<MapView> {
   @override
   Widget build(BuildContext context) {  
 
-     final usuario      = Provider.of<AuthService>(context).usuario; 
+    final  usuario      = Provider.of<AuthBloc>(context).state.usuario!;  
     final locationBloc = BlocProvider.of<LocationBloc>(context);
     final myLocation = locationBloc.state.lastKnownLocation!;
     final location =BlocProvider.of<AddressBloc>(context).state.address!.ubicacion;
     final mapBloc = BlocProvider.of<MapBloc>(context); 
 
-    final zoom = mapBloc.getZoom(location!);    
-    final center = mapBloc.bounds(location);
-    
+    final zoom = mapBloc.getZoom(location!); 
+    //final newzoom = zoom -3.0;
+    //debugPrint("ZOOM: $newzoom");   
+    final center = mapBloc.bounds(location);  
+   
     
     final userLocation = LatLng(location[0], location[1]);
 
@@ -72,8 +75,8 @@ class _MapViewState extends State<MapView> {
           mapController: _mapController,          
           options: MapOptions(             
             zoom: zoom,
-            minZoom: 5.0,
-            maxZoom: 17.0,            
+            minZoom: 1.0,
+            maxZoom: 20.0,            
             center:  center,
           ),
           nonRotatedChildren: [
