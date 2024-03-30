@@ -63,8 +63,24 @@ set autenticando( bool valor ) {
     return usuario;
     
     } else {
-      final respBody = jsonDecode(resp.body);
-      return respBody['msg'];
+      final respBody = Usuario(
+        email: "",
+        nombre: "",
+        apellido: "", 
+        nacimiento: "", 
+        domicilio: "", 
+        vehiculo: "",
+        modelo: "",
+        patente: "",
+        licencia: "",
+        id: "",
+        urlMapbox: "",
+        tokenMapBox: "",
+        idMapBox: "",
+         mapToken: "");
+      
+      //jsonDecode(resp.body);
+      return respBody;
     }
 
   }

@@ -37,13 +37,9 @@ class _BasePageState extends State<BasePage> {
       body: Center(
         child: BlocBuilder<AuthBloc, AuthState>(
           builder: (context, state) { 
-
-           final isactiveBase = state.usuario?.base?[0] ?? [];
-
-
-           return isactiveBase is String
-           ?  MapZonas(size: size) 
-           :  Container(width: size.width, height: size.height, color: Colors.green); 
+           
+             return MapZonas(size: size); 
+           
           }
           )
       ),

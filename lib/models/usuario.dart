@@ -60,7 +60,7 @@ class Usuario {
         tokenMapBox: json["tokenMapBox"],
         idMapBox: json["idMapBox"],
         mapToken: json["mapToken"],
-        base: json["base"]?? [''],
+        base: json["base"] ?? ""
     );
 
     Map<String, dynamic> toJson() => {
