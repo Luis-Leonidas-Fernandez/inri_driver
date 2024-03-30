@@ -50,6 +50,8 @@ dependencies:
   flutter_background_service: ^5.0.5
   flutter_background_service_android: ^6.2.2
   flutter_local_notifications: ^15.1.1
+  webview_flutter: ^4.5.0
+  connectivity_plus: ^5.0.2
 
 dev_dependencies:
   flutter_lints: ^2.0.1
@@ -71,6 +73,10 @@ flutter:
     - assets/icon.jpg
     - assets/person.jpg
     - assets/remis.png
+    - assets/no_internet.png
+    - assets/map.webp
+    - assets/fontana.webp
+    - assets/barranqueras.webp
   #   - images/a_dot_ham.jpeg
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

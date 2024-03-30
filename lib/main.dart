@@ -2,9 +2,12 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
+import 'package:inri_driver/blocs/base/base_bloc.dart';
 
 import 'package:inri_driver/blocs/blocs.dart';
+import 'package:inri_driver/pages/base_page.dart';
 import 'package:inri_driver/pages/notifications_access.dart';
+import 'package:inri_driver/pages/privacy_page.dart';
 import 'package:inri_driver/repositories/background_instance.dart';
 
 import 'package:inri_driver/service/addresses_service.dart';
@@ -51,7 +54,8 @@ void main() async {
 
     MultiBlocProvider(
       providers: [
-
+        
+        BlocProvider(create: (context) => BaseBloc() ),
         BlocProvider(create: (context) => AuthBloc(authService: AuthService())),
         BlocProvider(create: (context) => GpsBloc() ), 
         BlocProvider(create: (context) => NotificationBloc()),       
@@ -80,6 +84,8 @@ class MyApp extends StatelessWidget {
       routes: {  
     
         'login'         : (BuildContext context) => const LoginPage(),
+        'privacy'       : (BuildContext context) => const PrivacyPage(),
+        'base'          : (BuildContext context) => const BasePage(),
         'register'      : (BuildContext context) => const RegisterPage(),
         'home'          : (BuildContext context) => const HomePage(),
         'gps'           : (BuildContext context) => const GpsAccessPage(),

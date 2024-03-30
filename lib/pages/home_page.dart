@@ -114,7 +114,8 @@ class _HomePageState extends State<HomePage> {
           if (state.lastKnownLocation == null) return const Center(child: Text('Espere por favor...'),);
           final long = (state.lastKnownLocation!.longitude);
           final lat = state.lastKnownLocation!.latitude;         
-         
+          
+        
 
           return StreamBuilder(
               stream: addressBloc.getOrder(),

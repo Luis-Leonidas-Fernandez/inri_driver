@@ -48,7 +48,9 @@ set autenticando( bool valor ) {
 
     final resp = await http.post(Uri.parse('${Environment.apiUrl }/logindriver/newdriver'), body: body, headers: headers);       
     
-    
+    final obj = resp.body.toString();
+
+    print("RESULTADO DE REGISTRO USUARIO: $obj");
 
     if ( resp.statusCode == 200 ) {
     
@@ -56,6 +58,7 @@ set autenticando( bool valor ) {
     final usuario = loginResponse.usuario as Usuario;   
 
     await storage.saveToken(loginResponse.token);
+    await storage.saveId(usuario.id);
 
     return usuario;
     
@@ -110,6 +113,9 @@ set autenticando( bool valor ) {
 
       final usuario = loginResponse.usuario as Usuario;      
       
+      final base = usuario.base;
+
+      print("base del conductor: $base");
       final privateToken = loginResponse.token; 
      
       await  storage.saveToken(privateToken);    

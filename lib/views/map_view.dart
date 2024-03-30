@@ -58,9 +58,7 @@ class _MapViewState extends State<MapView> {
     final location =BlocProvider.of<AddressBloc>(context).state.address!.ubicacion;
     final mapBloc = BlocProvider.of<MapBloc>(context); 
 
-    final zoom = mapBloc.getZoom(location!); 
-    //final newzoom = zoom -3.0;
-    //debugPrint("ZOOM: $newzoom");   
+    final zoom = mapBloc.getZoom(location!);     
     final center = mapBloc.bounds(location);  
    
     

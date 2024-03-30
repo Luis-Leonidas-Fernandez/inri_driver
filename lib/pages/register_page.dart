@@ -287,13 +287,13 @@ class _LoginFormState extends State<_LoginForm> {
                         
             
            
-            if(!mounted) return;
+            //if(!mounted) return;
 
-            if(registerOk && mounted){
+            if(registerOk && context.mounted){
 
-              Navigator.pushReplacementNamed(context, 'loading');
+              Navigator.pushReplacementNamed(context, 'base');
 
-            }else{
+            }else if(registerOk == false && context.mounted){
               
               mostrarAlerta(context, 'Registro incorrecto', registerOk.toString() );
             }    

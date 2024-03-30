@@ -1,5 +1,6 @@
 // ignore_for_file: avoid_print
 
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -20,7 +21,95 @@ class LoginPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
 
-        body: AuthBackground(
+        body: StreamBuilder(
+          stream:  Connectivity().onConnectivityChanged,
+          builder: (context, AsyncSnapshot<ConnectivityResult> snapshot){
+            
+            print(snapshot.toString());
+
+             if(snapshot.hasData) {
+          ConnectivityResult ? result = snapshot.data;
+          if (result == ConnectivityResult.mobile || result == ConnectivityResult.wifi){
+
+           return authScaffold();
+           
+          
+          }else{
+            return disconnected();
+          }
+
+        }else{
+
+         return disconnected();
+         
+        }
+            
+
+          }
+
+
+          )
+    );
+  }
+
+Widget loading(){
+    return const Center(
+      child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Colors.indigo),),
+    );
+  }
+
+ Widget connected(String type){
+
+    return Center(
+      child: Text(
+        "$type Connected",
+        style: const TextStyle(
+          color: Colors.indigo,
+          fontSize: 20,
+        ),
+      ),
+    );
+  }
+  
+  Widget disconnected(){
+  
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.center,
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: [
+
+      Image.asset('assets/no_internet.png',
+      color: Colors.red,
+      height: 100,
+      ),
+      Container(
+        margin: const EdgeInsets.only(top: 20, bottom: 10, left: 30, right: 30),        
+        child: const Text(
+          "No estas Conectado a Internet",
+          style: TextStyle(
+            fontSize: 22,
+            fontWeight: FontWeight.w500,),
+        ),
+      ),
+      Container(
+        margin: const EdgeInsets.only(bottom: 20),
+        child: const Text(
+          "Comprueba tu conección por favor",
+           style: TextStyle(
+            fontWeight: FontWeight.w500,
+            fontSize: 17
+            )
+        ),
+      )
+
+    ],
+  );
+ }
+
+}
+
+Widget authScaffold(){
+  return AuthBackground(
             child: SingleChildScrollView(
 
       child: Column(
@@ -47,8 +136,8 @@ class LoginPage extends StatelessWidget {
           )),
         ],
       ),
-    )));
-  }
+    )
+    );
 }
 
 class _LoginForm extends StatefulWidget {
@@ -154,7 +243,7 @@ class _LoginFormState extends State<_LoginForm> {
             const SizedBox(height: 15),
             ElevatedButton(
                 onPressed: () =>
-                    Navigator.pushReplacementNamed(context, 'register'),
+                    Navigator.pushReplacementNamed(context, 'privacy'),
                 style: ButtonStyle(
                     overlayColor: MaterialStateProperty.all(
                         Colors.indigo.withOpacity(0.2))),

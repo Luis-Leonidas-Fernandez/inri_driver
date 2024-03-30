@@ -25,6 +25,7 @@ class Usuario {
         required this.tokenMapBox,
         required this.idMapBox,
         required this.mapToken,
+        this.base
 
     });
 
@@ -42,6 +43,7 @@ class Usuario {
     String tokenMapBox;
     String idMapBox;
     String mapToken;
+    List<String>? base;
 
     factory Usuario.fromJson(Map<String, dynamic> json) => Usuario(
         email: json["email"],
@@ -58,6 +60,7 @@ class Usuario {
         tokenMapBox: json["tokenMapBox"],
         idMapBox: json["idMapBox"],
         mapToken: json["mapToken"],
+        base: json["base"]?? [''],
     );
 
     Map<String, dynamic> toJson() => {
@@ -75,6 +78,7 @@ class Usuario {
         "tokenMapBox": tokenMapBox,
         "idMapBox": idMapBox,
         "mapToken": mapToken,
+        "base": base,
 
     };
 }

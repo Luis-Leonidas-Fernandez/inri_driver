@@ -13,7 +13,7 @@
        
 
    <application
-        android:label="Inri: para conductores"
+        android:label="Inri Driver: para conductores"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
 
