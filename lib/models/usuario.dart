@@ -43,7 +43,7 @@ class Usuario {
     String tokenMapBox;
     String idMapBox;
     String mapToken;
-    List<String>? base;
+    String? base;
 
     factory Usuario.fromJson(Map<String, dynamic> json) => Usuario(
         email: json["email"],
