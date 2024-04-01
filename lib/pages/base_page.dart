@@ -187,7 +187,7 @@ class SelectArea extends StatelessWidget {
          const Positioned(
             top: 220,
             left: 200,
-            child: DroopButtonF() ),
+            child: DroopButtonE() ),
         ] 
       ),
 
@@ -207,7 +207,7 @@ class SelectArea extends StatelessWidget {
          const Positioned(
             top: 190,
             left: 160,
-            child: DroopButtonG() ),
+            child: DroopButtonF() ),
         ] 
       ),
 
@@ -247,9 +247,7 @@ class ButtonGoHome extends StatelessWidget {
               
               final base = basebloc.state.baseSelected ?? {} as BaseModel;
               
-              final registerOk = await baseService.addDriverToBase(base);             
-                      
-             
+              final registerOk = await baseService.addDriverToBase(base);              
 
 
               if(registerOk == true && context.mounted){              
@@ -321,7 +319,7 @@ class _DroopButtonState extends State<DroopButton> {
   @override
   Widget build(BuildContext context) {
 
-    final baseBloc = BlocProvider.of<BaseBloc>(context);
+    final baseBloc = BlocProvider.of<BaseBloc>(context);   
 
     return BlocBuilder<BaseBloc, BaseState>(
       builder: (context, state) {
@@ -350,7 +348,10 @@ class _DroopButtonState extends State<DroopButton> {
          
            
                     baseBloc.add(AddBaseEvent(data));
-                    Future.delayed(const Duration(seconds: 10));                  
+                    Future.delayed(const Duration(seconds: 10)); 
+                    
+                    
+
            
          
          
@@ -671,6 +672,102 @@ class _DroopButtonDState extends State<DroopButtonD> {
   }
 }
 
+class DroopButtonE extends StatefulWidget {
+
+  const DroopButtonE({Key? key}) : super(key: key);
+
+  @override
+  State<DroopButtonE> createState() => _DroopButtonEState();
+}
+
+class _DroopButtonEState extends State<DroopButtonE> {
+
+  String dropdownValue = '1';
+  String e = 'E';
+
+  BaseModel? baseSelected;
+  BaseBloc? baseBloc;
+
+  @override
+  void initState() {
+    super.initState();
+
+   BlocProvider.of<BaseBloc>(context);
+    
+  }
+
+  @override
+  void dispose() {    
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+
+    final baseBloc = BlocProvider.of<BaseBloc>(context);
+
+    return BlocBuilder<BaseBloc, BaseState>(
+      builder: (context, state) {
+        return Container(
+               width: 65,
+               height: 45,
+               decoration: BoxDecoration(
+               color: const Color.fromARGB(255, 159, 173, 252),
+               borderRadius: BorderRadius.circular(10)
+             ),
+              child: Center(
+                    child: DropdownButton<String>(
+                    value: dropdownValue,             
+                    style: const TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold),
+                    icon: const Icon(Icons.arrow_drop_down, color: Colors.black,),
+                    onChanged: (String? newValue) async {                
+            
+                    dropdownValue = newValue!;                
+                              
+           
+                    final value = {"zona": e, "base": dropdownValue}; 
+                    final data = BaseModel.fromJson(value);
+         
+                    debugPrint("value: $value");
+                    debugPrint("data: $data");
+         
+           
+                    baseBloc.add(AddBaseEvent(data));
+                    Future.delayed(const Duration(seconds: 10));                  
+           
+         
+         
+          },
+          items: const [
+           DropdownMenuItem(
+             value: '1',
+             child: Text('1') 
+             ),
+             DropdownMenuItem(
+             value: '2',
+             child: Text('2') 
+             ),
+             DropdownMenuItem(
+             value: '3',
+             child: Text('3') 
+             ),
+             DropdownMenuItem(
+             value: '4',
+             child: Text('4') 
+             )
+          ],
+             ),
+           ),
+         );
+      }
+    );
+    
+    
+    
+  }
+}
+
+
 class DroopButtonF extends StatefulWidget {
 
   const DroopButtonF({Key? key}) : super(key: key);
@@ -725,102 +822,6 @@ class _DroopButtonFState extends State<DroopButtonF> {
                               
            
                     final value = {"zona": f, "base": dropdownValue}; 
-                    final data = BaseModel.fromJson(value);
-         
-                    debugPrint("value: $value");
-                    debugPrint("data: $data");
-         
-           
-                    baseBloc.add(AddBaseEvent(data));
-                    Future.delayed(const Duration(seconds: 10));                  
-           
-         
-         
-          },
-          items: const [
-           DropdownMenuItem(
-             value: '1',
-             child: Text('1') 
-             ),
-             DropdownMenuItem(
-             value: '2',
-             child: Text('2') 
-             ),
-             DropdownMenuItem(
-             value: '3',
-             child: Text('3') 
-             ),
-             DropdownMenuItem(
-             value: '4',
-             child: Text('4') 
-             )
-          ],
-             ),
-           ),
-         );
-      }
-    );
-    
-    
-    
-  }
-}
-
-
-class DroopButtonG extends StatefulWidget {
-
-  const DroopButtonG({Key? key}) : super(key: key);
-
-  @override
-  State<DroopButtonG> createState() => _DroopButtonGState();
-}
-
-class _DroopButtonGState extends State<DroopButtonG> {
-
-  String dropdownValue = '1';
-  String g = 'G';
-
-  BaseModel? baseSelected;
-  BaseBloc? baseBloc;
-
-  @override
-  void initState() {
-    super.initState();
-
-   BlocProvider.of<BaseBloc>(context);
-    
-  }
-
-  @override
-  void dispose() {    
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-
-    final baseBloc = BlocProvider.of<BaseBloc>(context);
-
-    return BlocBuilder<BaseBloc, BaseState>(
-      builder: (context, state) {
-        return Container(
-               width: 65,
-               height: 45,
-               decoration: BoxDecoration(
-               color: const Color.fromARGB(255, 159, 173, 252),
-               borderRadius: BorderRadius.circular(10)
-             ),
-              child: Center(
-                    child: DropdownButton<String>(
-                    value: dropdownValue,             
-                    style: const TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold),
-                    icon: const Icon(Icons.arrow_drop_down, color: Colors.black,),
-                    onChanged: (String? newValue) async {                
-            
-                    dropdownValue = newValue!;                
-                              
-           
-                    final value = {"zona": g, "base": dropdownValue}; 
                     final data = BaseModel.fromJson(value);
          
                     debugPrint("value: $value");

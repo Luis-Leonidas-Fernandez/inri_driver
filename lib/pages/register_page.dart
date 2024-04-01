@@ -284,11 +284,9 @@ class _LoginFormState extends State<_LoginForm> {
             final registerOk =await authUser.initRegister(nameCtrl.text.toString(), emailCtrl.text.toString(), passCtrl.text.toString(),
             apellidoCtrl.text.toString(), nacimientoCtrl.text.toString(), domicilioCtrl.text.toString(),
             vehiculoCtrl.text.toString(),modeloCtrl.text.toString(), patenteCtrl.text.toString(), licenciaCtrl.text.toString()); 
-                        
-            
+                      
+                      
            
-            //if(!mounted) return;
-
             if(registerOk && context.mounted){
 
               Navigator.pushReplacementNamed(context, 'base');

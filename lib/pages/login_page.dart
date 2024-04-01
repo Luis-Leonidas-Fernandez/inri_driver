@@ -218,16 +218,14 @@ class _LoginFormState extends State<_LoginForm> {
                       
 
                         final loginOk = await authUser.initLogin(emailCtrl.text.toString(), passCtrl.text.toString());
-                                                 
+
+                          
                         
-                        
-                        if(!mounted) return;
-                        
-                        if (loginOk && mounted) {
+                        if (loginOk == true && context.mounted) {
 
                           Navigator.pushReplacementNamed(context, 'loading');
 
-                        } else {
+                        } else if( loginOk == false && context.mounted) {
                            
                           mostrarAlerta(context, 'Login incorrecto','Revise sus credenciales nuevamente');
                         }

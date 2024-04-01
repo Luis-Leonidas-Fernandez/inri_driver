@@ -140,9 +140,8 @@ set autenticando( bool valor ) {
       
       return usuario;
     } else {     
-       final respBody = jsonDecode(resp.body);
-      final data = loginResponseFromJson(respBody);
-      return data.ok;
+       final respBody = jsonDecode(resp.body);      
+      return respBody['msg'];
      
       }
       
